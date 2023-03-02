@@ -1,0 +1,76 @@
+{%- if main_product_tags contains 'productSwatchHackney_' -%}
+  {%- assign productSwatchHackneyTag = '' -%}
+  {%- assign productSwatchHackneyName = '' -%}
+  {%- for tag in product.tags -%}
+    {%- if tag contains 'productSwatchHackney_' -%}
+      {%- assign productSwatchHackneyTagArr = tag | remove: 'productSwatchHackney_' | split: '_' -%}
+      {%- assign productSwatchHackneyTag = tag | remove: 'productSwatchHackney_' | split: '_' | first -%}
+      {%- assign productSwatchHackneyName = tag | remove: 'productSwatchHackney_' | split: '_' | last -%}
+    {%- endif -%}
+  {%- endfor -%}
+  <div class="product_custom_swatch" data-productSwatchHackneyTag="{{productSwatchHackneyTag}}">
+    <div class="product_custom_swatch_heading">
+      <span>Color:</span>
+      {{ productSwatchHackneyName }}</div>
+    {%- paginate collection.products by 1000 -%}
+      {%- for product_s in collection.products -%}
+        {%- assign productSwatchHackneyTagCurrent = '' -%}
+        {%- assign swatch_product_tags = product_s.tags | join: ',' -%}
+        {%- assign productSwatchHackneyTagCurrent = 'productSwatchHackney_' | append: productSwatchHackneyTag -%}
+        {%- for s_tag in product_s.tags -%}
+          {%- if s_tag contains productSwatchHackneyTagCurrent -%}
+            {%- assign subProductSwatchHackneyTagArr = s_tag | remove: 'productSwatchHackney_' | split: '_' -%}
+            {%- assign collabProduct = subProductSwatchHackneyTagArr[1] | downcase -%}
+            {%- if collabProduct == 'collabgroup' -%}
+              {%- capture customSwatchCollab -%}
+                {{ customSwatchCollab }}
+                <li {% if product.handle == product_s.handle %}class="active"{% endif %}>
+                  <a href="{{ product_s.url | within: collection }}" style="background-image: url({% if product_s.images[2] == blank %}{{product_s.featured_image | img_url: '210x'}}{% else %}{{product_s.images[2] | img_url: '210x'}}{% endif %});"></a>
+                </li>
+              {%- endcapture -%}
+            {%- elsif collabProduct == 'hackneymediumgroup' -%}
+              {%- capture customSwatchRoeqiyaFris -%}
+                {{ customSwatchRoeqiyaFris }}
+                <li {% if product.handle == product_s.handle %}class="active"{% endif %}>
+                  <a href="{{ product_s.url | within: collection }}" style="background-image: url({% if product_s.images[2] == blank %}{{product_s.featured_image | img_url: '210x'}}{% else %}{{product_s.images[2] | img_url: '210x'}}{% endif %});"></a>
+                </li>
+              {%- endcapture -%}
+            {%- elsif collabProduct == 'hackneylargegroup' -%}
+              {%- capture customSwatchWilliamMorris -%}
+                {{ customSwatchWilliamMorris }}
+                <li {% if product.handle == product_s.handle %}class="active"{% endif %}>
+                  <a href="{{ product_s.url | within: collection }}" style="background-image: url({% if product_s.images[2] == blank %}{{product_s.featured_image | img_url: '210x'}}{% else %}{{product_s.images[2] | img_url: '210x'}}{% endif %});"></a>
+                </li>
+              {%- endcapture -%}
+            {%- else -%}
+              {%- capture customSwatchAll -%}
+                {{ customSwatchAll }}
+                <li {% if product.handle == product_s.handle %}class="active"{% endif %}>
+                  <a href="{{ product_s.url | within: collection }}" style="background-image: url({% if product_s.images[2] == blank %}{{product_s.featured_image | img_url: '210x'}}{% else %}{{product_s.images[2] | img_url: '210x'}}{% endif %});"></a>
+                </li>
+              {%- endcapture -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    {%- endpaginate -%}
+    {%- if customSwatchAll != blank -%}
+      {%- comment -%}<div class="product_custom_swatch_subheading">Print</div>{%- endcomment -%}
+      <ul>
+        {{ customSwatchAll }}
+      </ul>
+    {%- endif -%}
+    {%- if customSwatchRoeqiyaFris != blank -%}
+      <div class="product_custom_swatch_subheading">Hackney 2.0 Medium</div>
+      <ul>
+        {{ customSwatchRoeqiyaFris }}
+      </ul>
+    {%- endif -%}
+    {%- if customSwatchWilliamMorris != blank -%}
+      <div class="product_custom_swatch_subheading">Hackney 2.0 Large</div>
+      <ul>
+        {{ customSwatchWilliamMorris }}
+      </ul>
+    {%- endif -%}
+  </div>
+{%- endif -%}
